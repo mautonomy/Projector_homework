@@ -8,8 +8,7 @@ for round in range(100):
     interval = round + 1
     change_hats(interval)
 
-result = 'Cats which has hats: '
+print('Cats which has hats: ')
 for index, cat in enumerate(cats):
     if cat:
-        result += str(index + 1) + ', '
-print(result)
+        print(index + 1)
