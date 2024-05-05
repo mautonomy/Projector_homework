@@ -34,13 +34,16 @@
 import random
 import csv
 
-def simulate_rounds():
-    return sum([random.randint (1,15) for i in range(100)])
+
+def simulate_rounds(players: list) -> list:
+    result = []
+    for i in range(100):
+        result += [(player, random.randint(1,1000)) for player in players]
+    
+    return result
 
 players = [ "Josh", "Luke", "Kate", "Mark", "Mary" ]
-
-player_scores = [(player, simulate_rounds()) for player in players]
-
+player_scores = simulate_rounds(players)
     
 with open('players.csv', 'w') as file:
     writer = csv.writer(file)
@@ -51,7 +54,30 @@ with open('players.csv', 'w') as file:
         
 # task 4
 
+player_scores = {}
+
 with open('players.csv', mode='r') as file:
-    reader = csv.reader(file)
-    for player, score in reader:
-        print(player, score)
+    reader = csv.DictReader(file)
+    
+    for row in reader:
+        current_player = row['Player']
+        current_score = int(row['Score'])
+        
+        max = player_scores.get(current_player)
+        if max is None or max < current_score:
+            player_scores[current_player] = current_score
+    
+                
+sorted_scores = sorted(player_scores.items(), key=lambda x: x[1], reverse=True)
+
+with open('high_scores.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Player name', 'Highest score'])
+    for player, score in sorted_scores:
+        writer.writerow([player, score])
+
+
+
+
+     
+     
