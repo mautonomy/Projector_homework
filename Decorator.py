@@ -1,10 +1,11 @@
-# task 1
+# # task 1
 def is_admin(func):
     def inner(**params):
         user_type = params['user_type']
         if user_type != 'admin':
             raise ValueError("Permission denied")
-        func(user_type)
+        
+        return func(user_type)
     return inner
 
 @is_admin
